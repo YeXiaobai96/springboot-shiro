@@ -1,0 +1,70 @@
+server:
+  port: 9097
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 200MB #最大文件大小。值可以使用后缀“MB”或“KB”分别表示兆字节或千字节。
+      max-request-size: 200MB #最大请求大小。值可以使用后缀“MB”或“KB”分别表示兆字节或千字节。
+      enabled: true
+    encoding:
+      charset: UTF-8
+  application:
+    name: propagandize-service
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: ${datasource.url:jdbc:mysql://localhost:3306/test}?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: ${datasource.username:root}
+    password: ${datasource.password:ok}
+    druid:
+      minIdle: 10
+      maxActive: 100
+      initialSize: 10
+      timeBetweenEvictionRunsMillis: 3000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1
+      validationQueryTimeout: 10000
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      maxWait: 60000
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      filters: stat, wall
+#      proxyFilters:
+#        - wallFilter
+
+  #redis配置
+  redis:
+    host: 192.168.3.74
+    port: 6379
+    timeout: 2000
+    database: 3
+    password: 123456
+## Mybatis 配置
+mybatis:
+  typeAliasesPackage: com.wm.springboot.model.entity
+  mapperLocations: classpath:mapper/*.xml
+
+logging:
+  level:
+    root: INFO
+    com.wm.springboot.dao: debug
+    org:
+      springframework:
+        web: DEBUG
+
+swagger:
+  enable: true
+
+#通用mapper配置
+mapper:
+  #mappers 多个接口时逗号隔开
+  mappers: com.wm.springboot.dao.MyMapper
+  not-empty: false
+  identity: MYSQL
